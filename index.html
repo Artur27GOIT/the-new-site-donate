@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Особиста подяка</title>
+    <link rel="stylesheet" href="./style/style.css" />
+  </head>
+  <body>
+    <main class="card" role="main" aria-label="Повідомлення подяки">
+      <h1>
+        Особиста подяка від мене, що стали частиною збору<br />
+        Разом до миру
+      </h1>
+      <span class="element-heart">❤️‍🩹</span>
+      <div class="container-button">
+        <button class="donate-btn" id="openModalBtn">Задонатити</button>
+      </div>
+      <!---------------------------------------- Модальне вікно---------------------------------------      -->
+      <div class="modal" id="donateModal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeModalBtn">&times;</span>
+          <h2>Взяти участь у розіграші</h2>
+
+          <form class="donate-form">
+            <label for="firstName">Ім’я</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="Введіть ваше ім’я"
+              required
+            />
+
+            <label for="lastName">Прізвище</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Введіть ваше прізвище"
+              required
+            />
+
+            <label for="amount">Сума донату (грн)</label>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              placeholder="50"
+              min="50"
+              step="50"
+              required
+            />
+
+            <label>Номер білету</label>
+            <div class="ticket-grid">
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="1" />
+                <span>1</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="2" />
+                <span>2</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="3" />
+                <span>3</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="4" />
+                <span>4</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="5" />
+                <span>5</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="6" />
+                <span>6</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="7" />
+                <span>7</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="8" />
+                <span>8</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="9" />
+                <span>9</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="10" />
+                <span>10</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="11" />
+                <span>11</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="12" />
+                <span>12</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="13" />
+                <span>13</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="14" />
+                <span>14</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="15" />
+                <span>15</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="16" />
+                <span>16</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="17" />
+                <span>17</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="18" />
+                <span>18</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="19" />
+                <span>19</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="20" />
+                <span>20</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="21" />
+                <span>21</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="22" />
+                <span>22</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="23" />
+                <span>23</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="24" />
+                <span>24</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="25" />
+                <span>25</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="26" />
+                <span>26</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="27" />
+                <span>27</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="28" />
+                <span>28</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="29" />
+                <span>29</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="30" />
+                <span>30</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="31" />
+                <span>31</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="32" />
+                <span>32</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="33" />
+                <span>33</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="34" />
+                <span>34</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="35" />
+                <span>35</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="36" />
+                <span>36</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="37" />
+                <span>37</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="38" />
+                <span>38</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="39" />
+                <span>39</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="40" />
+                <span>40</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="41" />
+                <span>41</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="42" />
+                <span>42</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="43" />
+                <span>43</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="44" />
+                <span>44</span>
+              </label>
+              <label class="ticket">
+                <input type="checkbox" name="ticketNumber" value="45" />
+                <span>45</span>
+              </label>
+            </div>
+
+            <button type="submit" class="submit-btn">Взяти участь</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <!-- скріпт модалки -->
+    <script>
+      const modal = document.getElementById("donateModal");
+      const donateBtn = document.getElementById("openModalBtn");
+      const closeModal = document.getElementById("closeModalBtn");
+      const donateForm = document.querySelector(".donate-form");
+      const amountInput = document.getElementById("amount");
+      const ticketCheckboxes = document.querySelectorAll(
+        'input[name="ticketNumber"]'
+      );
+      const monoJar = "2pDvqLCWa2";
+
+      // URL твого Google Apps Script
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxlp0H2R_CHFY6qm47_aK4zX1rPvT4Nyy95rxWS6q77veZohSTQPVjekdZfLB0V3_jo/exec";
+
+      // ===== Відкриття / закриття модалки =====
+      donateBtn.addEventListener("click", async () => {
+        await updateTakenTickets(); // оновлюємо зайняті білети при відкритті
+        modal.classList.add("active");
+      });
+
+      closeModal.addEventListener("click", () =>
+        modal.classList.remove("active")
+      );
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("active");
+      });
+
+      // ===== Отримання зайнятих білетів =====
+      async function updateTakenTickets() {
+        try {
+          const response = await fetch(SCRIPT_URL);
+          const data = await response.json();
+          const ticketsTaken = data.ticketsTaken || [];
+
+          ticketCheckboxes.forEach((cb) => {
+            if (ticketsTaken.includes(cb.value)) {
+              cb.disabled = true;
+              cb.checked = false;
+              cb.parentElement.classList.add("taken"); // для стилю
+            } else {
+              cb.disabled = false;
+              cb.parentElement.classList.remove("taken");
+            }
+          });
+        } catch (err) {
+          console.error("Помилка отримання зайнятих білетів:", err);
+        }
+      }
+
+      // ===== Обмеження білетів за сумою =====
+      function updateTicketAvailability() {
+        const amount = parseInt(amountInput.value);
+        const maxTickets = Math.floor(amount / 50);
+
+        if (isNaN(amount) || amount < 50) {
+          ticketCheckboxes.forEach((cb) => {
+            cb.disabled = true;
+            cb.checked = false;
+          });
+          return;
+        }
+
+        const checked = Array.from(ticketCheckboxes).filter((cb) => cb.checked);
+        ticketCheckboxes.forEach((cb) => {
+          if (!cb.checked && checked.length >= maxTickets) cb.disabled = true;
+          else if (!cb.parentElement.classList.contains("taken"))
+            cb.disabled = false;
+        });
+      }
+
+      amountInput.addEventListener("input", updateTicketAvailability);
+      ticketCheckboxes.forEach((cb) =>
+        cb.addEventListener("change", updateTicketAvailability)
+      );
+
+      // ===== Відправка форми =====
+      donateForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName = document.getElementById("lastName").value.trim();
+        const amount = parseInt(amountInput.value) || 0;
+        const maxTickets = Math.floor(amount / 50);
+        const selectedTickets = Array.from(ticketCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.value);
+
+        if (!firstName || !lastName || !amount) {
+          alert("Будь ласка, заповніть Ім’я, Прізвище та суму.");
+          return;
+        }
+
+        if (selectedTickets.length === 0) {
+          alert("Будь ласка, оберіть хоча б один білет.");
+          return;
+        }
+
+        if (selectedTickets.length > maxTickets) {
+          alert(
+            `Ви можете обрати максимум ${maxTickets} білет(ів) для введеної суми ${amount} грн.`
+          );
+          return;
+        }
+
+        // ===== Відправка в Google Sheets =====
+        try {
+          await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              amount,
+              tickets: selectedTickets,
+            }),
+          });
+        } catch (err) {
+          console.error("Помилка запису в Google Sheets:", err);
+          alert("Не вдалося записати дані. Спробуйте пізніше.");
+          return;
+        }
+
+        // ===== Перехід на Monobank Jar =====
+        window.open(`https://send.monobank.ua/jar/2pDvqLCWa2`, "_blank");
+
+        // Скидання форми
+        donateForm.reset();
+        ticketCheckboxes.forEach((cb) => {
+          if (!cb.parentElement.classList.contains("taken"))
+            cb.disabled = false;
+        });
+      });
+    </script>
+  </body>
+</html>

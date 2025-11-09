@@ -285,6 +285,12 @@
 
     <!-- скріпт модалки -->
     <script>
+      function isMobile() {
+        return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+          navigator.userAgent
+        );
+      }
+
       const donateBtn = document.getElementById("openModalBtn");
       const closeModal = document.getElementById("closeModalBtn");
       const modal = document.getElementById("donateModal");
@@ -453,7 +459,12 @@
           .then((response) => {
             if (!response.ok) throw new Error("Сервер повернув помилку");
             showMessage("Дані успішно збережено! Дякуємо за донат.");
-            window.open(monoJarLink, "_blank");
+            if (isMobile()) {
+              window.location.href = monoJarLink;
+            } else {
+              window.open(monoJarLink, "_blank");
+            }
+
             donateForm.reset();
             ticketCheckboxes.forEach(
               (cb) => (cb.disabled = takenTickets.includes(cb.value))

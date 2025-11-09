@@ -339,22 +339,22 @@
         const SCRIPT_URL =
           "https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec";
 
-        try {
-          await fetch(SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              amount,
-              tickets: selectedTickets,
-            }),
-          });
-        } catch (err) {
-          alert("Не вдалося записати дані в Google Sheets");
-          console.error(err);
-          return;
-        }
+        // try {
+        //   await fetch(SCRIPT_URL, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({
+        //       firstName,
+        //       lastName,
+        //       amount,
+        //       tickets: selectedTickets,
+        //     }),
+        //   });
+        // } catch (err) {
+        //   alert("Не вдалося записати дані в Google Sheets");
+        //   console.error(err);
+        //   return;
+        // }
 
         // Після успішного запису відкриваємо Monobank
         window.open(monoJarLink, "_blank");

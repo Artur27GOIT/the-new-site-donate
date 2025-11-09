@@ -51,7 +51,7 @@
             <input
               type="number"
               id="amount"
-              id="amount"
+              name="amount"
               placeholder="50"
               min="50"
               step="50"
@@ -299,7 +299,8 @@
       );
 
       // ===== Submit форми =====
-      donateForm.addEventListener("submit", (e) => {
+      donateForm.addEventListener("submit", async (e) => {
+        // <- додано async
         e.preventDefault();
 
         const firstName = document.getElementById("firstName").value.trim();
@@ -334,7 +335,28 @@
           return;
         }
 
-        // ===== Перехід на Monobank Jar =====
+        // ===== Відправка даних у Google Sheets =====
+        const SCRIPT_URL =
+          "https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec";
+
+        try {
+          await fetch(SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              amount,
+              tickets: selectedTickets,
+            }),
+          });
+        } catch (err) {
+          alert("Не вдалося записати дані в Google Sheets");
+          console.error(err);
+          return;
+        }
+
+        // Після успішного запису відкриваємо Monobank
         window.open(monoJarLink, "_blank");
 
         // ===== Скидання форми і чекбоксів =====

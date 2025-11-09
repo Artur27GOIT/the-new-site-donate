@@ -20,6 +20,7 @@ body {
       transparent
     );
   background-color: #0f172a;
+  scroll-behavior: smooth;
 }
 
 .card {
@@ -87,7 +88,7 @@ h1 {
     border: red 2px solid;
   }
 }
-/* ===== Кнопка донату ===== */
+/* --------------------------------------------------Кнопка донату-------------------------------------------------- */
 .donate-btn {
   margin-top: 2rem;
   padding: 0.8rem 1.6rem;
@@ -105,7 +106,7 @@ h1 {
   box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
 }
 
-/* ===== Модальне вікно ===== */
+/* --------------------------------------------------Модальне вікно-------------------------------------------------- */
 .modal.active {
   display: flex;
 }
@@ -172,7 +173,7 @@ h1 {
   border-color: #ffd700;
 }
 
-/* ===== Сітка білетів ===== */
+/* --------------------------------------------------Сітка білетів-------------------------------------------------- */
 .ticket-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
@@ -241,4 +242,79 @@ h1 {
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* -----------------------------------------------Секція розіграшу----------------------------------------------- */
+/* ===== Блок Умови розіграшу ===== */
+.raffle-intro {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.raffle-intro h2 {
+  font-size: 2rem;
+  color: #ffb347;
+  margin-bottom: 0.5rem;
+}
+
+.raffle-intro p {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.scroll-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
+  color: #0f172a;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scroll-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 204, 51, 0.4);
+}
+
+/* --------------------------------------------------Секція розіграшу-------------------------------------------------- */
+.raffle-card {
+  text-align: center;
+  padding: 2.5rem 2rem;
+}
+
+.raffle-card h2 {
+  font-size: 2.2rem;
+  background: linear-gradient(90deg, #ff9a8b, #ffb347);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+}
+
+.raffle-card .raffle-image {
+  margin: 1rem 0;
+}
+
+.raffle-card .raffle-image img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.raffle-card p {
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.5;
+  margin-top: 1rem;
+}
+
+h2 .emoji {
+  color: initial;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }

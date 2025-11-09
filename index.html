@@ -16,6 +16,37 @@
       <div class="container-button">
         <button class="donate-btn" id="openModalBtn">Задонатити</button>
       </div>
+
+      <!-- ------------------------------------Секція розіграшу--------------------------------------- -->
+
+      <!-- ===== Блок Умови розіграшу ===== -->
+      <section class="raffle-intro">
+        <h2>Умови розіграшу</h2>
+        <p>Дізнайтесь деталі та як отримати сертифікат на емоції!</p>
+        <button class="scroll-btn" id="scrollToRaffle">
+          Перейти до розіграшу
+        </button>
+      </section>
+
+      <!---------------------------------------- Секція розіграшу---------------------------------------      -->
+
+      <section
+        class="card raffle-card"
+        id="raffleSection"
+        role="region"
+        aria-label="Розіграш сертифікату"
+      >
+        <h2>Сертифікат на емоції <span class="emoji">🎁</span></h2>
+
+        <div class="raffle-image">
+          <img src="your-image.jpg" alt="Сертифікат на емоції" />
+        </div>
+        <p>
+          Участь у розіграші доступна всім, хто зробив донат. Оберіть свій білет
+          та виграйте сертифікат для неймовірних емоцій!
+        </p>
+      </section>
+
       <!---------------------------------------- Модальне вікно---------------------------------------      -->
       <div class="modal" id="donateModal">
         <div class="modal-content">
@@ -432,6 +463,12 @@
             alert("Помилка при відправці даних");
             console.error(err);
           });
+      });
+      const scrollBtn = document.getElementById("scrollToRaffle");
+      const raffleSection = document.getElementById("raffleSection");
+
+      scrollBtn.addEventListener("click", () => {
+        raffleSection.scrollIntoView({ behavior: "smooth" });
       });
     </script>
   </body>

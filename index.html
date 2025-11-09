@@ -22,13 +22,11 @@
           <span class="close-btn" id="closeModalBtn">&times;</span>
           <h2>Взяти участь у розіграші</h2>
 
-          <form
-            class="donate-form"
-            id="googleForm"
-            action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec"
-            method="POST"
-            target="_blank"
-          >
+          <!-- action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec" -->
+          <!-- method="POST" -->
+          <!-- target="_blank" -->
+
+          <form class="donate-form" id="googleForm">
             <label for="firstName">Ім’я</label>
             <input
               type="text"
@@ -299,43 +297,60 @@
       );
 
       // ===== Submit форми =====
-      donateForm.addEventListener("submit", (e) => {
+      donateForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
         const amount = parseInt(document.getElementById("amount").value) || 0;
-        const selectedTickets = Array.from(ticketCheckboxes).filter(
-          (cb) => cb.checked
-        );
-
-        if (!firstName || !lastName) {
-          alert("Будь ласка, введіть Ім’я та Прізвище.");
-          e.preventDefault();
-          return;
-        }
-
-        if (!amount || amount < 50) {
-          alert("Вкажіть суму від 50 грн.");
-          e.preventDefault();
-          return;
-        }
-
-        if (selectedTickets.length === 0) {
-          alert("Оберіть хоча б один білет.");
-          e.preventDefault();
-          return;
-        }
+        const selectedTickets = Array.from(ticketCheckboxes)
+          .filter((cb) => cb.checked)
+          .map((cb) => cb.value);
 
         const maxTickets = Math.floor(amount / 50);
-        if (selectedTickets.length > maxTickets) {
-          alert(
-            `Ви можете обрати максимум ${maxTickets} білет(ів) для введеної суми ${amount} грн.`
-          );
-          e.preventDefault();
+
+        if (
+          !firstName ||
+          !lastName ||
+          amount < 50 ||
+          selectedTickets.length === 0 ||
+          selectedTickets.length > maxTickets
+        ) {
+          alert("Перевірте всі поля та білети.");
           return;
         }
 
-        // Якщо все ок — форма відправиться сама (CORS не спрацює)
-        window.open(monoJarLink, "_blank");
+        // ===== Відправка на SheetDB =====
+        const SHEETDB_URL = "https://sheetdb.io/api/v1/564kk8ptt07xm"; // заміни на свій URL
+
+        try {
+          const res = await fetch(SHEETDB_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              data: {
+                "First Name": firstName,
+                "Last Name": lastName,
+                Amount: amount,
+                Tickets: selectedTickets.join(","),
+              },
+            }),
+          });
+
+          const json = await res.json();
+          console.log(json);
+          alert("Дані успішно збережено!");
+
+          // Відкриваємо Monobank
+          window.open(monoJarLink, "_blank");
+
+          // Скидаємо форму
+          donateForm.reset();
+          ticketCheckboxes.forEach((cb) => (cb.disabled = false));
+        } catch (err) {
+          console.error(err);
+          alert("Не вдалося відправити дані.");
+        }
       });
     </script>
   </body>

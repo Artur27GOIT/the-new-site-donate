@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test Google Sheet Form</title>
+  </head>
+  <body>
+    <h2>Тест відправки даних у Google Sheets</h2>
+
+    <form
+      action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec"
+      method="POST"
+      target="_blank"
+    >
+      <label>Ім’я:</label>
+      <input type="text" name="firstName" required /><br /><br />
+
+      <label>Прізвище:</label>
+      <input type="text" name="lastName" required /><br /><br />
+
+      <label>Сума:</label>
+      <input type="number" name="amount" min="50" required /><br /><br />
+
+      <label>Білети:</label>
+      <input type="text" name="ticketNumber" placeholder="1,2,3" /><br /><br />
+
+      <button type="submit">Відправити тест</button>
+    </form>
+  </body>
+</html>

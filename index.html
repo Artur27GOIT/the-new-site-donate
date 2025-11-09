@@ -22,7 +22,13 @@
           <span class="close-btn" id="closeModalBtn">&times;</span>
           <h2>Взяти участь у розіграші</h2>
 
-          <form class="donate-form">
+          <form
+            class="donate-form"
+            id="googleForm"
+            action="https://script.google.com/macros/s/AKfycbxlp0H2R_CHFY6qm47_aK4zX1rPvT4Nyy95rxWS6q77veZohSTQPVjekdZfLB0V3_jo/exec
+"
+            method="POST"
+          >
             <label for="firstName">Ім’я</label>
             <input
               type="text"
@@ -45,7 +51,7 @@
             <input
               type="number"
               id="amount"
-              name="amount"
+              id="amount"
               placeholder="50"
               min="50"
               step="50"
@@ -243,26 +249,20 @@
     </main>
     <!-- скріпт модалки -->
     <script>
-      const modal = document.getElementById("donateModal");
       const donateBtn = document.getElementById("openModalBtn");
       const closeModal = document.getElementById("closeModalBtn");
+      const modal = document.getElementById("donateModal");
+
       const donateForm = document.querySelector(".donate-form");
       const amountInput = document.getElementById("amount");
       const ticketCheckboxes = document.querySelectorAll(
         'input[name="ticketNumber"]'
       );
-      const monoJar = "2pDvqLCWa2";
 
-      // URL твого Google Apps Script
-      const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxlp0H2R_CHFY6qm47_aK4zX1rPvT4Nyy95rxWS6q77veZohSTQPVjekdZfLB0V3_jo/exec";
+      const monoJarLink = "https://send.monobank.ua/jar/2pDvqLCWa2";
 
       // ===== Відкриття / закриття модалки =====
-      donateBtn.addEventListener("click", async () => {
-        await updateTakenTickets(); // оновлюємо зайняті білети при відкритті
-        modal.classList.add("active");
-      });
-
+      donateBtn.addEventListener("click", () => modal.classList.add("active"));
       closeModal.addEventListener("click", () =>
         modal.classList.remove("active")
       );
@@ -270,46 +270,26 @@
         if (e.target === modal) modal.classList.remove("active");
       });
 
-      // ===== Отримання зайнятих білетів =====
-      async function updateTakenTickets() {
-        try {
-          const response = await fetch(SCRIPT_URL);
-          const data = await response.json();
-          const ticketsTaken = data.ticketsTaken || [];
-
-          ticketCheckboxes.forEach((cb) => {
-            if (ticketsTaken.includes(cb.value)) {
-              cb.disabled = true;
-              cb.checked = false;
-              cb.parentElement.classList.add("taken"); // для стилю
-            } else {
-              cb.disabled = false;
-              cb.parentElement.classList.remove("taken");
-            }
-          });
-        } catch (err) {
-          console.error("Помилка отримання зайнятих білетів:", err);
-        }
-      }
-
-      // ===== Обмеження білетів за сумою =====
+      // ===== Обмеження білетів по сумі =====
       function updateTicketAvailability() {
         const amount = parseInt(amountInput.value);
         const maxTickets = Math.floor(amount / 50);
 
         if (isNaN(amount) || amount < 50) {
           ticketCheckboxes.forEach((cb) => {
-            cb.disabled = true;
             cb.checked = false;
+            cb.disabled = true;
           });
           return;
         }
 
-        const checked = Array.from(ticketCheckboxes).filter((cb) => cb.checked);
+        const checkedCount = Array.from(ticketCheckboxes).filter(
+          (cb) => cb.checked
+        ).length;
+
         ticketCheckboxes.forEach((cb) => {
-          if (!cb.checked && checked.length >= maxTickets) cb.disabled = true;
-          else if (!cb.parentElement.classList.contains("taken"))
-            cb.disabled = false;
+          if (!cb.checked && checkedCount >= maxTickets) cb.disabled = true;
+          else cb.disabled = false;
         });
       }
 
@@ -318,28 +298,35 @@
         cb.addEventListener("change", updateTicketAvailability)
       );
 
-      // ===== Відправка форми =====
-      donateForm.addEventListener("submit", async (e) => {
+      // ===== Submit форми =====
+      donateForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
-        const amount = parseInt(amountInput.value) || 0;
-        const maxTickets = Math.floor(amount / 50);
+        const amount = parseInt(document.getElementById("amount").value) || 0;
+
         const selectedTickets = Array.from(ticketCheckboxes)
           .filter((cb) => cb.checked)
           .map((cb) => cb.value);
 
-        if (!firstName || !lastName || !amount) {
-          alert("Будь ласка, заповніть Ім’я, Прізвище та суму.");
+        // ===== Перевірки =====
+        if (!firstName || !lastName) {
+          alert("Будь ласка, введіть Ім’я та Прізвище.");
+          return;
+        }
+
+        if (!amount || amount < 50) {
+          alert("Вкажіть суму від 50 грн.");
           return;
         }
 
         if (selectedTickets.length === 0) {
-          alert("Будь ласка, оберіть хоча б один білет.");
+          alert("Оберіть хоча б один білет.");
           return;
         }
 
+        const maxTickets = Math.floor(amount / 50);
         if (selectedTickets.length > maxTickets) {
           alert(
             `Ви можете обрати максимум ${maxTickets} білет(ів) для введеної суми ${amount} грн.`
@@ -347,33 +334,12 @@
           return;
         }
 
-        // ===== Відправка в Google Sheets =====
-        try {
-          await fetch(SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              amount,
-              tickets: selectedTickets,
-            }),
-          });
-        } catch (err) {
-          console.error("Помилка запису в Google Sheets:", err);
-          alert("Не вдалося записати дані. Спробуйте пізніше.");
-          return;
-        }
-
         // ===== Перехід на Monobank Jar =====
-        window.open(`https://send.monobank.ua/jar/2pDvqLCWa2`, "_blank");
+        window.open(monoJarLink, "_blank");
 
-        // Скидання форми
+        // ===== Скидання форми і чекбоксів =====
         donateForm.reset();
-        ticketCheckboxes.forEach((cb) => {
-          if (!cb.parentElement.classList.contains("taken"))
-            cb.disabled = false;
-        });
+        ticketCheckboxes.forEach((cb) => (cb.disabled = false));
       });
     </script>
   </body>

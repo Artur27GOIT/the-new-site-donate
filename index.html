@@ -25,8 +25,7 @@
           <form
             class="donate-form"
             id="googleForm"
-            action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec
-"
+            action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec"
             method="POST"
             target="_blank"
           >
@@ -335,10 +334,7 @@
           return;
         }
 
-        // Якщо перевірки пройдено — форма відправиться сама
-        // (через action="https://script.google.com/macros/s/.../exec")
-
-        // Відкриваємо Monobank у новій вкладці
+        // Якщо все ок — форма відправиться сама (CORS не спрацює)
         window.open(monoJarLink, "_blank");
       });
     </script>

@@ -28,6 +28,7 @@
             action="https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec
 "
             method="POST"
+            target="_blank"
           >
             <label for="firstName">Ім’я</label>
             <input
@@ -299,31 +300,29 @@
       );
 
       // ===== Submit форми =====
-      donateForm.addEventListener("submit", async (e) => {
-        // <- додано async
-        e.preventDefault();
-
+      donateForm.addEventListener("submit", (e) => {
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
         const amount = parseInt(document.getElementById("amount").value) || 0;
+        const selectedTickets = Array.from(ticketCheckboxes).filter(
+          (cb) => cb.checked
+        );
 
-        const selectedTickets = Array.from(ticketCheckboxes)
-          .filter((cb) => cb.checked)
-          .map((cb) => cb.value);
-
-        // ===== Перевірки =====
         if (!firstName || !lastName) {
           alert("Будь ласка, введіть Ім’я та Прізвище.");
+          e.preventDefault();
           return;
         }
 
         if (!amount || amount < 50) {
           alert("Вкажіть суму від 50 грн.");
+          e.preventDefault();
           return;
         }
 
         if (selectedTickets.length === 0) {
           alert("Оберіть хоча б один білет.");
+          e.preventDefault();
           return;
         }
 
@@ -332,36 +331,15 @@
           alert(
             `Ви можете обрати максимум ${maxTickets} білет(ів) для введеної суми ${amount} грн.`
           );
+          e.preventDefault();
           return;
         }
 
-        // ===== Відправка даних у Google Sheets =====
-        const SCRIPT_URL =
-          "https://script.google.com/macros/s/AKfycbxp-51Z59AwnGMbWk1hKoanZU5wA4v5n_yr-l_gyg-IPWmbFV7aUQTftbo8jk-s1mgf/exec";
+        // Якщо перевірки пройдено — форма відправиться сама
+        // (через action="https://script.google.com/macros/s/.../exec")
 
-        // try {
-        //   await fetch(SCRIPT_URL, {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({
-        //       firstName,
-        //       lastName,
-        //       amount,
-        //       tickets: selectedTickets,
-        //     }),
-        //   });
-        // } catch (err) {
-        //   alert("Не вдалося записати дані в Google Sheets");
-        //   console.error(err);
-        //   return;
-        // }
-
-        // Після успішного запису відкриваємо Monobank
+        // Відкриваємо Monobank у новій вкладці
         window.open(monoJarLink, "_blank");
-
-        // ===== Скидання форми і чекбоксів =====
-        donateForm.reset();
-        ticketCheckboxes.forEach((cb) => (cb.disabled = false));
       });
     </script>
   </body>

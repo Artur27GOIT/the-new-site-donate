@@ -3,18 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Особиста подяка</title>
+    <title>Нехай буде МИР</title>
+    <link
+      rel="icon"
+      href="./icon/made-in-ukraine-icon.svg"
+      type="image/svg+xml"
+    />
+
     <link rel="stylesheet" href="./style/style.css" />
   </head>
   <body>
     <main class="card" role="main" aria-label="Повідомлення подяки">
       <h1>
-        Особиста подяка від мене, що стали частиною збору<br />
-        Разом до миру
+        Зроби свій вклад для миру на нашій Землі<br />
+        Разом ми сила!
       </h1>
       <span class="element-heart">❤️‍🩹</span>
       <div class="container-button">
-        <button class="donate-btn" id="openModalBtn">Задонатити</button>
+        <button class="donate-btn">Задонатити</button>
       </div>
 
       <!-- ------------------------------------Секція розіграшу--------------------------------------- -->
@@ -45,6 +51,9 @@
           Участь у розіграші доступна всім, хто зробив донат. Оберіть свій білет
           та виграйте сертифікат для неймовірних емоцій!
         </p>
+        <div class="container-button">
+          <button class="donate-btn">Задонатити</button>
+        </div>
       </section>
 
       <!---------------------------------------- Модальне вікно---------------------------------------      -->
@@ -291,7 +300,7 @@
         );
       }
 
-      const donateBtn = document.getElementById("openModalBtn");
+      const donateButtons = document.querySelectorAll(".donate-btn");
       const closeModal = document.getElementById("closeModalBtn");
       const modal = document.getElementById("donateModal");
 
@@ -320,11 +329,15 @@
         if (e.target === messageModal) messageModal.classList.remove("active");
       });
 
-      // ===== Відкриття / закриття модалки =====
-      donateBtn.addEventListener("click", () => modal.classList.add("active"));
+      // ----------------------------------------Відкриття / закриття модалки---------------------------------------
+      donateButtons.forEach((btn) => {
+        btn.addEventListener("click", () => modal.classList.add("active"));
+      });
+
       closeModal.addEventListener("click", () =>
         modal.classList.remove("active")
       );
+
       window.addEventListener("click", (e) => {
         if (e.target === modal) modal.classList.remove("active");
       });

@@ -245,6 +245,13 @@
         </div>
       </div>
     </main>
+    <div class="modal" id="messageModal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeMessageModal">&times;</span>
+        <p id="messageText"></p>
+      </div>
+    </div>
+
     <!-- скріпт модалки -->
     <script>
       const donateBtn = document.getElementById("openModalBtn");
@@ -258,6 +265,23 @@
       );
 
       const monoJarLink = "https://send.monobank.ua/jar/2pDvqLCWa2";
+
+      const messageModal = document.getElementById("messageModal");
+      const messageText = document.getElementById("messageText");
+      const closeMessageModal = document.getElementById("closeMessageModal");
+
+      function showMessage(msg) {
+        messageText.textContent = msg;
+        messageModal.classList.add("active");
+      }
+
+      closeMessageModal.addEventListener("click", () => {
+        messageModal.classList.remove("active");
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === messageModal) messageModal.classList.remove("active");
+      });
 
       // ===== Відкриття / закриття модалки =====
       donateBtn.addEventListener("click", () => modal.classList.add("active"));
@@ -296,8 +320,46 @@
         cb.addEventListener("change", updateTicketAvailability)
       );
 
+      // ===== Завантаження зайнятих білетів =====
+      let takenTickets = [];
+
+      fetch("https://sheetdb.io/api/v1/564kk8ptt07xm")
+        .then((res) => res.json())
+        .then((data) => {
+          takenTickets = data.flatMap((row) => row.Tickets.split(","));
+          ticketCheckboxes.forEach((cb) => {
+            if (takenTickets.includes(cb.value)) {
+              cb.disabled = true;
+              cb.parentElement.classList.add("taken");
+            }
+          });
+        })
+        .catch((err) =>
+          console.error("Помилка при отриманні зайнятих білетів:", err)
+        );
+
+      // ===== Обмеження білетів по сумі =====
+      function updateTicketAvailability() {
+        const amount = parseInt(amountInput.value);
+        const maxTickets = Math.floor(amount / 50);
+
+        const checkedCount = Array.from(ticketCheckboxes).filter(
+          (cb) => cb.checked
+        ).length;
+
+        ticketCheckboxes.forEach((cb) => {
+          if (!cb.checked && checkedCount >= maxTickets) cb.disabled = true;
+          else if (!takenTickets.includes(cb.value)) cb.disabled = false;
+        });
+      }
+
+      amountInput.addEventListener("input", updateTicketAvailability);
+      ticketCheckboxes.forEach((cb) =>
+        cb.addEventListener("change", updateTicketAvailability)
+      );
+
       // ===== Submit форми =====
-      donateForm.addEventListener("submit", async (e) => {
+      donateForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
         const firstName = document.getElementById("firstName").value.trim();
@@ -309,6 +371,7 @@
 
         const maxTickets = Math.floor(amount / 50);
 
+        // Перевірка
         if (
           !firstName ||
           !lastName ||
@@ -316,41 +379,59 @@
           selectedTickets.length === 0 ||
           selectedTickets.length > maxTickets
         ) {
-          alert("Перевірте всі поля та білети.");
+          showMessage("Перевірте всі поля та білети.");
           return;
         }
 
-        // ===== Відправка на SheetDB =====
-        const SHEETDB_URL = "https://sheetdb.io/api/v1/564kk8ptt07xm"; // заміни на свій URL
-
-        try {
-          const res = await fetch(SHEETDB_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              data: {
-                "First Name": firstName,
-                "Last Name": lastName,
-                Amount: amount,
-                Tickets: selectedTickets.join(","),
-              },
-            }),
-          });
-
-          const json = await res.json();
-          console.log(json);
-          alert("Дані успішно збережено!");
-
-          // Відкриваємо Monobank
-          window.open(monoJarLink, "_blank");
-
-          // Скидаємо форму
-          donateForm.reset();
-          ticketCheckboxes.forEach((cb) => (cb.disabled = false));
-        } catch (err) {
-          console.error(err);
-          alert("Не вдалося відправити дані.");
+        // Додаткова перевірка на зайняті білети
+        const conflict = selectedTickets.some((ticket) =>
+          takenTickets.includes(ticket)
+        );
+        if (conflict) {
+          showMessage(
+            "Один або більше обраних білетів вже куплені. Оберіть інші."
+          );
+          return;
         }
+
+        // ===== Форматуємо Timestamp =====
+        const now = new Date();
+        const timestamp = `${now.getDate().toString().padStart(2, "0")}/${(
+          now.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}/${now.getFullYear()} ${now
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
+
+        const formData = {
+          Timestamp: timestamp,
+          "First Name": firstName,
+          "Last Name": lastName,
+          Amount: amount,
+          Tickets: selectedTickets.join(","),
+        };
+
+        // ===== Відправка даних =====
+        fetch("https://sheetdb.io/api/v1/564kk8ptt07xm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("Сервер повернув помилку");
+            showMessage("Дані успішно збережено! Дякуємо за донат.");
+            window.open(monoJarLink, "_blank");
+            donateForm.reset();
+            ticketCheckboxes.forEach(
+              (cb) => (cb.disabled = takenTickets.includes(cb.value))
+            );
+          })
+          .catch((err) => {
+            alert("Помилка при відправці даних");
+            console.error(err);
+          });
       });
     </script>
   </body>

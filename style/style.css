@@ -83,6 +83,9 @@ h1 {
   .element-heart {
     font-size: 3rem;
   }
+  .ticket.taken {
+    border: red 2px solid;
+  }
 }
 /* ===== Кнопка донату ===== */
 .donate-btn {
@@ -203,6 +206,11 @@ h1 {
   background: transparent;
   color: #fff;
   transition: 0.2s;
+}
+
+.ticket.taken {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 /* .ticket:hover span {

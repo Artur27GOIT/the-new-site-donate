@@ -494,6 +494,58 @@
       scrollBtn.addEventListener("click", () => {
         raffleSection.scrollIntoView({ behavior: "smooth" });
       });
+      // =================== Автоматичне оновлення при зміні таблиці ===================
+let lastRowCount = 0;
+
+// створюємо модалку динамічно (щоб не чіпати HTML)
+const updateModal = document.createElement("div");
+updateModal.classList.add("modal");
+updateModal.innerHTML = `
+  <div class="modal-content">
+    <h3>🔄 Дані оновились!</h3>
+    <p>З’явились нові учасники або білети. Оновити сторінку?</p>
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+      <button id="refreshConfirm" class="submit-btn">Оновити</button>
+      <button id="refreshCancel" class="donate-btn">Пізніше</button>
+    </div>
+  </div>
+`;
+document.body.appendChild(updateModal);
+
+const refreshConfirm = updateModal.querySelector("#refreshConfirm");
+const refreshCancel = updateModal.querySelector("#refreshCancel");
+
+refreshConfirm.addEventListener("click", () => {
+  location.reload();
+});
+
+refreshCancel.addEventListener("click", () => {
+  updateModal.classList.remove("active");
+});
+
+async function checkForNewData() {
+  try {
+    const res = await fetch("https://sheetdb.io/api/v1/564kk8ptt07xm");
+    const data = await res.json();
+
+    const currentRowCount = data.length;
+
+    // якщо є зміни — показуємо модалку
+    if (lastRowCount && currentRowCount !== lastRowCount) {
+      updateModal.classList.add("active");
+      console.log("📢 Виявлено оновлення у таблиці. Пропонуємо перезавантаження...");
+    }
+
+    lastRowCount = currentRowCount;
+  } catch (err) {
+    console.error("❌ Помилка перевірки оновлень:", err);
+  }
+}
+
+// перевірка кожні 10 секунд
+setInterval(checkForNewData, 10000);
+checkForNewData();
+
     </script>
   </body>
 </html>
